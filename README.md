@@ -7,13 +7,25 @@ It allows creating applications, chats, and messages with asynchronous processin
 
 ---
 
+# Environment Variables
+
+This project uses a `.env` file to configure services like MySQL, Redis, and Elasticsearch.  
+Docker Compose reads this file to pass environment variables to containers, so you don’t have to hardcode credentials.
+
+**Example `.env` file:**
+
+```env
+# Rails environment
+RAILS_ENV=development
+```
+
 # Quick Start
 - Build and start all services:
   ```bash
   docker-compose up
 
 # Configuration
-- Ruby version: 3.2.x
+- Ruby version: 3.3.x
 - Rails version: 8.1.0
 - database, Redis, and Elasticsearch configured via Docker.
   
