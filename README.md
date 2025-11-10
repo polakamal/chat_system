@@ -1,24 +1,28 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+# Chat System API
 
-Things you may want to cover:
+A Rails API-only application for a chat system.  
+It allows creating applications, chats, and messages with asynchronous processing and full-text search using Elasticsearch.
 
-* Ruby version
+---
 
-* System dependencies
+# Quick Start
+- Build and start all services:
+  ```bash
+  docker-compose up
 
-* Configuration
+# Configuration
+- Ruby version: 3.2.x
+- Rails version: 8.1.0
+- database, Redis, and Elasticsearch configured via Docker.
+  
+# Services
+- MySQL: main database
+- Redis: background jobs & caching
+- Sidekiq: asynchronous processing for chats & messages
+- Elasticsearch: full-text search for messages
 
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+# Enhancements & Future Improvements
+- Move docker-compose.yml to a separate repository for infrastructure-as-code.
+- Add environment-specific configurations (production, staging, development).
