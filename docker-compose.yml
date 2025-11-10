@@ -1,0 +1,48 @@
+version: "3.8"
+
+services:
+  db:
+    image: mysql:8
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: chat_system_development
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+
+  redis:
+    image: redis:7
+    restart: always
+    ports:
+      - "6379:6379"
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.15.0
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+    ports:
+      - "9200:9200"
+    volumes:
+      - es_data:/usr/share/elasticsearch/data
+
+  web:
+    build: .
+    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails db:create 2>/dev/null && bundle exec rails db:migrate && bundle exec rails db:seed 2>/dev/null && bundle exec rails s -b 0.0.0.0"
+    volumes:
+      - .:/chat_system
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+      - redis
+      - elasticsearch
+    environment:
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+
+volumes:
+  db_data:
+  es_data:

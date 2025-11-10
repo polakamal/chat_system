@@ -1,0 +1,25 @@
+# Default configuration shared by all environments
+default: &default
+  # Use MySQL as the database adapter
+  adapter: mysql2
+  encoding: utf8mb4
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  host: db  # use the service name from docker-compose.yml
+  port: 3306
+  username: <%= ENV['MYSQL_USER'] %>
+  password: <%= ENV['MYSQL_PASSWORD'] %>
+
+# Development database configuration
+development:
+  <<: *default
+  database: chat_system_development
+
+# Test database configuration
+test:
+  <<: *default
+  database: chat_system_test
+
+# Production database configuration
+production:
+  <<: *default
+  database: chat_system_production
