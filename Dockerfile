@@ -1,4 +1,4 @@
-FROM ruby:3.4
+FROM ruby:3.3.3
 
 # Set working directory inside the container
 WORKDIR /chat_system
