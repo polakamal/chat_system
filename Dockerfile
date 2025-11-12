@@ -3,6 +3,9 @@ FROM ruby:3.3.3
 # Set working directory inside the container
 WORKDIR /chat_system
 
+# copy everything first
+COPY . .   
+
 # Install dependencies needed to build native gems (mysql2, etc.)
 # libmariadb-dev replaces the old libmysqlclient-dev
 RUN apt-get update -qq && \
@@ -11,6 +14,3 @@ RUN apt-get update -qq && \
 
 # Install gem dependencies first (cached layer)
 RUN bundle install
-
-# Copy the rest of the application
-COPY . .
