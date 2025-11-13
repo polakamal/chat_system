@@ -27,7 +27,6 @@ services:
       - "9200:9200"
     volumes:
       - es_data:/usr/share/elasticsearch/data
-
   web:
     build: .
     command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails db:create 2>/dev/null && bundle exec rails db:migrate && bundle exec rails db:seed 2>/dev/null && bundle exec rails s -b 0.0.0.0"
@@ -45,6 +44,7 @@ services:
       MYSQL_PORT: ${MYSQL_PORT}
       MYSQL_HOST: ${MYSQL_HOST}
       REDIS_URL: redis://redis:6379/0
+      ELASTICSEARCH_URL: http://elasticsearch:9200
   worker:
     build: .
     command: bundle exec sidekiq
@@ -56,10 +56,26 @@ services:
       MYSQL_PORT: ${MYSQL_PORT}
       MYSQL_HOST: ${MYSQL_HOST}
       REDIS_URL: redis://redis:6379/0
+      ELASTICSEARCH_URL: http://elasticsearch:9200
     depends_on:
       - redis
       - db
-
+  scheduler:
+    build: .
+    command: bundle exec sidekiq -C config/sidekiq.yml
+    volumes:
+      - .:/chat_system 
+    environment:
+      SIDEKIQ_SCHEDULE: 1
+      MYSQL_USER: ${MYSQL_ROOT_USER}
+      MYSQL_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_PORT: ${MYSQL_PORT}
+      MYSQL_HOST: ${MYSQL_HOST}
+      REDIS_URL: redis://redis:6379/0
+      ELASTICSEARCH_URL: http://elasticsearch:9200
+    depends_on:
+      - db
+      - redis
 volumes:
   db_data:
   es_data:
