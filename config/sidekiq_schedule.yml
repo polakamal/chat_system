@@ -1,0 +1,9 @@
+update_chats_counters:
+  cron: "0 * * * *"    # every hour
+  class: "Chats::UpdateCountersJob"
+  queue: default
+
+update_applications_counters:
+  cron: "0 * * * *"    # every hour
+  class: "Applications::UpdateCountersJob"
+  queue: default
