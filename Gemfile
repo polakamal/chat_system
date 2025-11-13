@@ -9,7 +9,10 @@ gem 'mysql2'
 gem 'redis'
 
 # Use Sidekiq as the background job processor (for async chat/message creation)
-gem 'sidekiq'
+gem 'sidekiq', '~> 7.3'
+
+# Sidekiq-scheduler allows us to run recurring background jobs using cron syntax
+gem 'sidekiq-scheduler', '~> 6.0'
 
 # Integrate ActiveRecord models with Elasticsearch for full-text search
 gem 'elasticsearch-model'
