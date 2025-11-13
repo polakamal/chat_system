@@ -44,9 +44,21 @@ services:
       MYSQL_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_PORT: ${MYSQL_PORT}
       MYSQL_HOST: ${MYSQL_HOST}
-
-
-
+      REDIS_URL: redis://redis:6379/0
+  worker:
+    build: .
+    command: bundle exec sidekiq
+    volumes:
+      - .:/chat_system
+    environment:
+      MYSQL_USER: ${MYSQL_ROOT_USER}
+      MYSQL_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_PORT: ${MYSQL_PORT}
+      MYSQL_HOST: ${MYSQL_HOST}
+      REDIS_URL: redis://redis:6379/0
+    depends_on:
+      - redis
+      - db
 
 volumes:
   db_data:
