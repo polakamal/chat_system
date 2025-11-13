@@ -16,7 +16,7 @@ module Services
           per_page: apps.limit_value,
           total_pages: apps.total_pages,
           total_count: apps.total_count,
-          applications: apps
+          applications: apps.as_json(except: [:id])
         }
       end
       #-------#
