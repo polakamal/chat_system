@@ -22,6 +22,14 @@ class MessagesController < ActionController::API
     number = create.number
     render json: { number: number}, status: :created
   end
+
+  def search
+    query = params[:q]
+    require 'services/messages/search'
+    search = ::Services::Messages::Search.new({application_token: params[:application_token],
+       chat_number: params[:chat_number], query: params[:q]})
+    render json: search.to_hash, status: :ok
+  end
   
   #------#
    private
